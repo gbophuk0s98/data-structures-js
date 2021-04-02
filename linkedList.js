@@ -1,48 +1,49 @@
 class Node {
     constructor(value) {
         this.value = value
-        this.previous = null
+        this.right = null
+        this.left = null
     }
 }
 
-class Stack {
+class BinaryTree {
     constructor() {
         this.head = null
-        this._length = 0
     }
 }
 
-Stack.prototype.add = function(value) {
-    let node = new Node(value)
-    node.previous = this.head
-    this.head = node
-    this._length++
-    return this.head
-}
-
-Stack.prototype.remove = function() {
-
-    let currentNode = this.head
-
-    if (this._length === 0) {
-        console.log(`Can't be deleted (stack empty)`)
+BinaryTree.prototype.add = function(value) {
+    let node = new Node(value),
+        currentNode = this.head
+    if (!currentNode) {
+        this.head = node
         return
     }
-
-    this.head = this.head.previous
-    this._length--
-
-    return currentNode
+    while (currentNode) {
+        if (value < currentNode.value) {
+            if (!currentNode.left) break
+            currentNode = currentNode.left
+        } else {
+            if (!currentNode.right) break
+            currentNode = currentNode.right
+        }
+    }
+    
+    if (value < currentNode.value) {
+        currentNode.left = node
+    }
+    else {
+        currentNode.right = node
+    }
 }
 
-const stack = new Stack()
+const tree = new BinaryTree()
+tree.add(40)
+tree.add(20)
+tree.add(10)
+tree.add(30)
+tree.add(50)
+tree.add(90)
+tree.add(80)
 
-stack.add('First')
-stack.add('Second')
-stack.add('Third')
-stack.add('Fourth')
-stack.add('fifth')
-
-stack.remove()
-
-console.log('stack', stack)
+console.log(tree)
