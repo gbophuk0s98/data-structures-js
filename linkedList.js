@@ -1,47 +1,48 @@
 class Node {
     constructor(value) {
         this.value = value
-        this.next = null
+        this.previous = null
     }
 }
 
-class Queue {
+class Stack {
     constructor() {
         this.head = null
         this._length = 0
     }
 }
 
-Queue.prototype.add = function(value) {
-    let node = new Node(value),
-        currentNode = this.head
-    
-    if (!this.head) {
-        this.head = node
-    } else {
-        while (currentNode.next) {
-            currentNode = currentNode.next
-        }
-        currentNode.next = node
-    }
-
+Stack.prototype.add = function(value) {
+    let node = new Node(value)
+    node.previous = this.head
+    this.head = node
     this._length++
-    return node
+    return this.head
 }
 
-Queue.prototype.remove = function() {
+Stack.prototype.remove = function() {
+
     let currentNode = this.head
-    this.head = currentNode.next
+
+    if (this._length === 0) {
+        console.log(`Can't be deleted (stack empty)`)
+        return
+    }
+
+    this.head = this.head.previous
     this._length--
+
     return currentNode
 }
 
-const queue = new Queue()
+const stack = new Stack()
 
-queue.add(1)
-queue.add(2)
-queue.add(3)
+stack.add('First')
+stack.add('Second')
+stack.add('Third')
+stack.add('Fourth')
+stack.add('fifth')
 
-queue.remove()
+stack.remove()
 
-console.log('queue', queue)
+console.log('stack', stack)
